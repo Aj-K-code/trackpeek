@@ -3,24 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Data Are They Tracking? 🕵️</title>
+    <meta name="description" content="A privacy-focused tool to scan websites for tracking technologies like cookies, localStorage, and third-party scripts.">
+    <title>TrackPeek - What Data Are They Tracking? 🕵️</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕵️</text></svg>">
 </head>
 <body>
-    <h1>What Data Are They Tracking? 🕵️</h1>
-    <p>Drag the button below to your bookmarks bar to scan any website for tracking technologies.</p>
-    <a href="javascript:(function()%7Bvar script%3Ddocument.createElement('script')%3Bscript.src%3D'data:text/javascript;charset=UTF-8,(function()%7B%2F%2F%20Check%20if%20the%20popup%20already%20exists%0A%20%20%20%20if%20(document.getElementById('scanner-popup'))%20%7B%0A%20%20%20%20%20%20%20%20return%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20%2F%2F%20Create%20the%20popup%20container%0A%20%20%20%20var%20popup%20%3D%20document.createElement('div')%3B%0A%20%20%20%20popup.id%20%3D%20'scanner-popup'%3B%0A%20%20%20%20popup.innerHTML%20%3D%20'<h2>What%20Data%20Are%20They%20Tracking%3F%20%F0%9F%95%B5%EF%B8%8F%3C%2Fh2>'%3B%0A%0A%20%20%20%20%2F%2F%20Add%20close%20button%0A%20%20%20%20var%20closeButton%20%3D%20document.createElement('button')%3B%0A%20%20%20%20closeButton.innerText%20%3D%20'Close'%3B%0A%20%20%20%20closeButton.onclick%20%3D%20function()%20%7B%0A%20%20%20%20%20%20%20%20popup.remove()%3B%0A%20%20%20%20%7D%3B%0A%20%20%20%20popup.appendChild(closeButton)%3B%0A%0A%20%20%20%20%2F%2F%20---%20Cookies%20---%0A%20%20%20%20popup.appendChild(document.createElement('hr'))%3B%0A%20%20%20%20var%20cookiesHeading%20%3D%20document.createElement('h2')%3B%0A%20%20%20%20cookiesHeading.innerText%20%3D%20'Cookies%20%F0%9F%8D%AA'%3B%0A%20%20%20%20popup.appendChild(cookiesHeading)%3B%0A%20%20%20%20var%20cookiesList%20%3D%20document.createElement('ul')%3B%0A%20%20%20%20var%20cookies%20%3D%20document.cookie.split(';')%3B%0A%20%20%20%20if%20(cookies.length%20%3E%200%20&&%20cookies%5B0%5D%20!%3D%3D%20%22%22)%20%7B%0A%20%20%20%20%20%20%20%20cookies.forEach(function(cookie)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20item%20%3D%20document.createElement('li')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20item.innerText%20%3D%20cookie.trim()%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20cookiesList.appendChild(item)%3B%0A%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20cookiesList.innerHTML%20%3D%20'<li>No%20cookies%20found.%3C%2Fli>'%3B%0A%20%20%20%20%7D%0A%20%20%20%20popup.appendChild(cookiesList)%3B%0A%0A%20%20%20%20%2F%2F%20---%20LocalStorage%20---%0A%20%20%20%20popup.appendChild(document.createElement('hr'))%3B%0A%20%20%20%20var%20localStorageHeading%20%3D%20document.createElement('h2')%3B%0A%20%20%20%20localStorageHeading.innerText%20%3D%20'LocalStorage%20%F0%9F%97%A6'%3B%0A%20%20%20%20popup.appendChild(localStorageHeading)%3B%0A%20%20%20%20var%20localStorageList%20%3D%20document.createElement('ul')%3B%0A%20%20%20%20if%20(localStorage.length%20%3E%200)%20%7B%0A%20%20%20%20%20%20%20%20for%20(var%20i%20%3D%200%3B%20i%20%3C%20localStorage.length%3B%20i%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20key%20%3D%20localStorage.key(i)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20item%20%3D%20document.createElement('li')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20item.innerText%20%3D%20key%20%2B%20'%3A%20'%20%2B%20localStorage.getItem(key)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20localStorageList.appendChild(item)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20localStorageList.innerHTML%20%3D%20'<li>No%20localStorage%20data%20found.%3C%2Fli>'%3B%0A%20%20%20%20%7D%0A%20%20%20%20popup.appendChild(localStorageList)%3B%0A%0A%20%20%20%20%2F%2F%20---%20SessionStorage%20---%0A%20%20%20%20popup.appendChild(document.createElement('hr'))%3B%0A%20%20%20%20var%20sessionStorageHeading%20%3D%20document.createElement('h2')%3B%0A%20%20%20%20sessionStorageHeading.innerText%20%3D%20'SessionStorage%20%F0%9F%97%A6'%3B%0A%20%20%20%20popup.appendChild(sessionStorageHeading)%3B%0A%20%20%20%20var%20sessionStorageList%20%3D%20document.createElement('ul')%3B%0A%20%20%20%20if%20(sessionStorage.length%20%3E%200)%20%7B%0A%20%20%20%20%20%20%20%20for%20(var%20i%20%3D%200%3B%20i%20%3C%20sessionStorage.length%3B%20i%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20key%20%3D%20sessionStorage.key(i)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20item%20%3D%20document.createElement('li')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20item.innerText%20%3D%20key%20%2B%20'%3A%20'%20%2B%20sessionStorage.getItem(key)%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20sessionStorageList.appendChild(item)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20sessionStorageList.innerHTML%20%3D%20'<li>No%20sessionStorage%20data%20found.%3C%2Fli>'%3B%0A%20%20%20%20%7D%0A%20%20%20%20popup.appendChild(sessionStorageList)%3B%0A%0A%20%20%20%20%2F%2F%20---%20Third-party%20Scripts%20---%0A%20%20%20%20popup.appendChild(document.createElement('hr'))%3B%0A%20%20%20%20var%20scriptsHeading%20%3D%20document.createElement('h2')%3B%0A%20%20%20%20scriptsHeading.innerText%20%3D%20'Third-Party%20Scripts%20%F0%9F%8C%90'%3B%0A%20%20%20%20popup.appendChild(scriptsHeading)%3B%0A%20%20%20%20var%20scriptsList%20%3D%20document.createElement('ul')%3B%0A%20%20%20%20var%20scripts%20%3D%20document.getElementsByTagName('script')%3B%0A%20%20%20%20var%20thirdPartyScripts%20%3D%20%5B%5D%3B%0A%20%20%20%20for%20(var%20i%20%3D%200%3B%20i%20%3C%20scripts.length%3B%20i%2B%2B)%20%7B%0A%20%20%20%20%20%20%20%20var%20script%20%3D%20scripts%5Bi%5D%3B%0A%20%20%20%20%20%20%20%20if%20(script.src%20&&%20new%20URL(script.src).hostname%20!%3D%3D%20window.location.hostname)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20thirdPartyScripts.push(script.src)%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%20%20if%20(thirdPartyScripts.length%20%3E%200)%20%7B%0A%20%20%20%20%20%20%20%20thirdPartyScripts.forEach(function(src)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20var%20item%20%3D%20document.createElement('li')%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20item.innerText%20%3D%20src%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20scriptsList.appendChild(item)%3B%0A%20%20%20%20%20%20%20%20%7D)%3B%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20scriptsList.innerHTML%20%3D%20'<li>No%20third-party%20scripts%20found.%3C%2Fli>'%3B%0A%20%20%20%20%7D%0A%20%20%20%20popup.appendChild(scriptsList)%3B%0A%0A%20%20%20%20%2F%2F%20Add%20the%20popup%20to%20the%20page%0A%20%20%20%20document.body.appendChild(popup)%3B%0A%0A%20%20%20%20%2F%2F%20Basic%20styling%20(can%20be%20moved%20to%20CSS%20file)%0A%20%20%20%20popup.style.cssText%20%3D%20%60%0A%20%20%20%20%20%20%20%20position%3A%20fixed%3B%0A%20%20%20%20%20%20%20%20top%3A%2020px%3B%0A%20%20%20%20%20%20%20%20left%3A%2020px%3B%0A%20%20%20%20%20%20%20%20background-color%3A%20white%3B%0A%20%20%20%20%20%20%20%20border%3A%201px%20solid%20%23ccc%3B%0A%20%20%20%20%20%20%20%20box-shadow%3A%200%202px%2010px%20rgba(0%2C%200%2C%200%2C%200.2)%3B%0A%20%20%20%20%20%20%20%20padding%3A%2020px%3B%0A%20%20%20%20%20%20%20%20z-index%3A%2010000%3B%0A%20%20%20%20%20%20%20%20width%3A%20300px%3B%0A%20%20%20%20%20%20%20%20max-height%3A%2080vh%3B%0A%20%20%20%20%20%20%20%20overflow-y%3A%20auto%3B%0A%20%20%20%20%60%3B%0A%20%20%20%20closeButton.style.cssText%20%3D%20%60%0A%20%20%20%20%20%20%20%20background-color%3A%20%23f44336%3B%0A%20%20%20%20%20%20%20%20color%3A%20white%3B%0A%20%20%20%20%20%20%20%20border%3A%20none%3B%0A%20%20%20%20%20%20%20%20padding%3A%205px%2010px%3B%0A%20%20%20%20%20%20%20%20cursor%3A%20pointer%3B%0A%20%20%20%20%20%20%20%20border-radius%3A%203px%3B%0A%20%20%20%20%20%20%20%20margin-top%3A%2010px%3B%0A%20%20%20%20%60%3B%0A%7D)()%3B';document.body.appendChild(script)%3B%7D)()">
-        📊 Scan This Site
-    </a>
-    <p><b>Usage Instructions:</b></p>
-    <ol>
-        <li>Drag the "📊 Scan This Site" button to your bookmarks bar.</li>
-        <li>Visit any website you want to scan.</li>
-        <li>Click the "📊 Scan This Site" bookmarklet in your bookmarks bar.</li>
-        <li>A popup will appear with the tracking data.</li>
-    </ol>
-    <footer>
-        <p>A privacy-focused tool. No data is collected by this site.</p>
-    </footer>
+    <div class="container">
+        <header>
+            <h1>What Data Are They Tracking? 🕵️</h1>
+            <p class="tagline">A simple, privacy-focused tool to reveal tracking technologies on any website</p>
+        </header>
+
+        <main>
+            <div class="bookmarklet-container">
+                <a class="bookmarklet" href="javascript:(function(){if(document.getElementById('trackpeek-popup'))return;var s=document.createElement('script');s.src='https://'+window.location.hostname+'/scanner.js';s.onerror=function(){var r=new XMLHttpRequest();r.open('GET','https://raw.githubusercontent.com/YOUR-USERNAME/trackpeek/main/scanner.js',true);r.onload=function(){if(this.status>=200&&this.status<400){var sc=document.createElement('script');sc.textContent=this.responseText;document.body.appendChild(sc);}};r.send();};document.body.appendChild(s);})();">
+                    📊 Scan This Site
+                </a>
+                <span class="drag-instruction">← Drag this button to your bookmarks bar</span>
+            </div>
+
+            <section class="instructions">
+                <h2>How to Use</h2>
+                <ol>
+                    <li>Drag the <strong>"📊 Scan This Site"</strong> button above to your bookmarks bar.</li>
+                    <li>Visit any website you want to analyze.</li>
+                    <li>Click the bookmarklet in your bookmarks bar.</li>
+                    <li>A popup will appear showing all tracking technologies in use.</li>
+                </ol>
+            </section>
+
+            <section class="features">
+                <div class="feature">
+                    <div class="feature-icon">🍪</div>
+                    <h3>Cookie Detection</h3>
+                    <p>Identifies all cookies set by the website, which can be used to track your browsing behavior and preferences.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📦</div>
+                    <h3>Storage Analysis</h3>
+                    <p>Reveals data stored in localStorage and sessionStorage, which websites use to persist information about you.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Third-Party Detection</h3>
+                    <p>Identifies external scripts from third-party domains that may be collecting data about your browsing activity.</p>
+                </div>
+            </section>
+
+            <div class="privacy-notice">
+                <p><strong>Privacy Commitment:</strong> This tool operates entirely in your browser. No data is sent to our servers or any third parties. Your browsing data stays private and secure.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>TrackPeek is a privacy-focused tool created to promote transparency in web tracking.</p>
+            <p> 2025 TrackPeek | <a href="https://github.com/YOUR-USERNAME/trackpeek">GitHub</a></p>
+        </footer>
+    </div>
+
+    <!-- Inline bookmarklet generator script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create the bookmarklet code
+            const scannerCode = `(function(){
+                // Check if popup already exists
+                if(document.getElementById('trackpeek-popup')) return;
+                
+                // Try to load from same origin first
+                var s = document.createElement('script');
+                s.src = '${window.location.protocol}//${window.location.host}/scanner.js';
+                
+                // Fallback to GitHub if same-origin fails
+                s.onerror = function() {
+                    var r = new XMLHttpRequest();
+                    r.open('GET', 'https://raw.githubusercontent.com/YOUR-USERNAME/trackpeek/main/scanner.js', true);
+                    r.onload = function() {
+                        if (this.status >= 200 && this.status < 400) {
+                            var sc = document.createElement('script');
+                            sc.textContent = this.responseText;
+                            document.body.appendChild(sc);
+                        }
+                    };
+                    r.send();
+                };
+                
+                document.body.appendChild(s);
+            })()`;
+            
+            // Encode the bookmarklet
+            const bookmarkletCode = `javascript:${encodeURIComponent(scannerCode)}`;
+            
+            // Update the bookmarklet href
+            document.querySelector('.bookmarklet').href = bookmarkletCode;
+        });
+    </script>
 </body>
 </html>
