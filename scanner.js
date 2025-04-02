@@ -1,3 +1,4 @@
+// TrackPeek Scanner - Simplified version for Chrome compatibility
 (function() {
     // Check if the popup already exists
     if (document.getElementById('trackpeek-popup')) {
@@ -7,48 +8,32 @@
     // Create the popup container
     const popup = document.createElement('div');
     popup.id = 'trackpeek-popup';
+    popup.style.cssText = 'position:fixed;top:20px;right:20px;background-color:white;border:1px solid #ccc;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:2147483647;width:350px;max-height:80vh;overflow-y:auto;font-family:sans-serif;font-size:14px;line-height:1.5;color:#333;padding:16px;';
     
     // Create header with title
-    const header = document.createElement('div');
-    header.className = 'trackpeek-header';
-    
     const title = document.createElement('h2');
     title.innerHTML = '🕵️ What Data Are They Tracking?';
-    header.appendChild(title);
+    title.style.margin = '0 0 15px 0';
+    popup.appendChild(title);
     
     // Add close button
     const closeButton = document.createElement('button');
     closeButton.innerHTML = '&times;';
-    closeButton.className = 'trackpeek-close-btn';
+    closeButton.style.cssText = 'position:absolute;top:10px;right:10px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;';
     closeButton.onclick = function() {
         popup.remove();
     };
-    header.appendChild(closeButton);
-    popup.appendChild(header);
-
-    // Create content container
-    const content = document.createElement('div');
-    content.className = 'trackpeek-content';
-
-    // --- Summary Section ---
-    const summary = document.createElement('div');
-    summary.className = 'trackpeek-summary';
-    
-    const currentHostname = window.location.hostname;
-    const summaryText = document.createElement('p');
-    summaryText.innerHTML = `Scanning <strong>${currentHostname}</strong>`;
-    summary.appendChild(summaryText);
-    content.appendChild(summary);
+    popup.appendChild(closeButton);
 
     // --- Cookies ---
-    const cookiesSection = document.createElement('div');
-    cookiesSection.className = 'trackpeek-section';
-    
     const cookiesHeading = document.createElement('h3');
     cookiesHeading.innerHTML = '🍪 Cookies';
-    cookiesSection.appendChild(cookiesHeading);
+    cookiesHeading.style.margin = '20px 0 10px 0';
+    popup.appendChild(cookiesHeading);
     
     const cookiesList = document.createElement('ul');
+    cookiesList.style.margin = '10px 0';
+    cookiesList.style.paddingLeft = '20px';
     const cookies = document.cookie.split(';');
     
     if (cookies.length > 0 && cookies[0] !== "") {
@@ -58,34 +43,33 @@
                 cookieCount++;
                 const item = document.createElement('li');
                 item.textContent = cookie.trim();
+                item.style.margin = '5px 0';
                 cookiesList.appendChild(item);
             }
         });
         
         const cookieSummary = document.createElement('p');
-        cookieSummary.className = 'trackpeek-summary-count';
         cookieSummary.textContent = `Found ${cookieCount} cookie${cookieCount !== 1 ? 's' : ''}`;
-        cookiesSection.appendChild(cookieSummary);
+        cookieSummary.style.fontWeight = 'bold';
+        popup.appendChild(cookieSummary);
     } else {
         const noCookies = document.createElement('p');
-        noCookies.className = 'trackpeek-none-found';
         noCookies.textContent = 'No cookies found';
-        cookiesSection.appendChild(noCookies);
+        popup.appendChild(noCookies);
     }
     
-    cookiesSection.appendChild(cookiesList);
-    content.appendChild(cookiesSection);
+    popup.appendChild(cookiesList);
 
     // --- LocalStorage ---
-    const localStorageSection = document.createElement('div');
-    localStorageSection.className = 'trackpeek-section';
-    
     const localStorageHeading = document.createElement('h3');
     localStorageHeading.innerHTML = '📦 LocalStorage';
-    localStorageSection.appendChild(localStorageHeading);
+    localStorageHeading.style.margin = '20px 0 10px 0';
+    popup.appendChild(localStorageHeading);
     
     try {
         const localStorageList = document.createElement('ul');
+        localStorageList.style.margin = '10px 0';
+        localStorageList.style.paddingLeft = '20px';
         let localStorageCount = 0;
         
         if (localStorage && localStorage.length > 0) {
@@ -96,45 +80,42 @@
                 
                 // Truncate very long values
                 let value = localStorage.getItem(key);
-                if (value && value.length > 100) {
-                    value = value.substring(0, 100) + '...';
+                if (value && value.length > 50) {
+                    value = value.substring(0, 50) + '...';
                 }
                 
                 item.textContent = `${key}: ${value}`;
+                item.style.margin = '5px 0';
                 localStorageList.appendChild(item);
             }
             
             const localStorageSummary = document.createElement('p');
-            localStorageSummary.className = 'trackpeek-summary-count';
-            localStorageSummary.textContent = `Found ${localStorageCount} item${localStorageCount !== 1 ? 's' : ''}`;
-            localStorageSection.appendChild(localStorageSummary);
+            localStorageSummary.textContent = `Found ${localStorageCount} localStorage item${localStorageCount !== 1 ? 's' : ''}`;
+            localStorageSummary.style.fontWeight = 'bold';
+            popup.appendChild(localStorageSummary);
         } else {
             const noLocalStorage = document.createElement('p');
-            noLocalStorage.className = 'trackpeek-none-found';
             noLocalStorage.textContent = 'No localStorage data found';
-            localStorageSection.appendChild(noLocalStorage);
+            popup.appendChild(noLocalStorage);
         }
         
-        localStorageSection.appendChild(localStorageList);
+        popup.appendChild(localStorageList);
     } catch (e) {
         const errorMsg = document.createElement('p');
-        errorMsg.className = 'trackpeek-error';
-        errorMsg.textContent = 'Unable to access localStorage (possibly blocked by browser security)';
-        localStorageSection.appendChild(errorMsg);
+        errorMsg.textContent = 'Unable to access localStorage';
+        popup.appendChild(errorMsg);
     }
-    
-    content.appendChild(localStorageSection);
 
     // --- SessionStorage ---
-    const sessionStorageSection = document.createElement('div');
-    sessionStorageSection.className = 'trackpeek-section';
-    
     const sessionStorageHeading = document.createElement('h3');
     sessionStorageHeading.innerHTML = '📦 SessionStorage';
-    sessionStorageSection.appendChild(sessionStorageHeading);
+    sessionStorageHeading.style.margin = '20px 0 10px 0';
+    popup.appendChild(sessionStorageHeading);
     
     try {
         const sessionStorageList = document.createElement('ul');
+        sessionStorageList.style.margin = '10px 0';
+        sessionStorageList.style.paddingLeft = '20px';
         let sessionStorageCount = 0;
         
         if (sessionStorage && sessionStorage.length > 0) {
@@ -145,57 +126,54 @@
                 
                 // Truncate very long values
                 let value = sessionStorage.getItem(key);
-                if (value && value.length > 100) {
-                    value = value.substring(0, 100) + '...';
+                if (value && value.length > 50) {
+                    value = value.substring(0, 50) + '...';
                 }
                 
                 item.textContent = `${key}: ${value}`;
+                item.style.margin = '5px 0';
                 sessionStorageList.appendChild(item);
             }
             
             const sessionStorageSummary = document.createElement('p');
-            sessionStorageSummary.className = 'trackpeek-summary-count';
-            sessionStorageSummary.textContent = `Found ${sessionStorageCount} item${sessionStorageCount !== 1 ? 's' : ''}`;
-            sessionStorageSection.appendChild(sessionStorageSummary);
+            sessionStorageSummary.textContent = `Found ${sessionStorageCount} sessionStorage item${sessionStorageCount !== 1 ? 's' : ''}`;
+            sessionStorageSummary.style.fontWeight = 'bold';
+            popup.appendChild(sessionStorageSummary);
         } else {
             const noSessionStorage = document.createElement('p');
-            noSessionStorage.className = 'trackpeek-none-found';
             noSessionStorage.textContent = 'No sessionStorage data found';
-            sessionStorageSection.appendChild(noSessionStorage);
+            popup.appendChild(noSessionStorage);
         }
         
-        sessionStorageSection.appendChild(sessionStorageList);
+        popup.appendChild(sessionStorageList);
     } catch (e) {
         const errorMsg = document.createElement('p');
-        errorMsg.className = 'trackpeek-error';
-        errorMsg.textContent = 'Unable to access sessionStorage (possibly blocked by browser security)';
-        sessionStorageSection.appendChild(errorMsg);
+        errorMsg.textContent = 'Unable to access sessionStorage';
+        popup.appendChild(errorMsg);
     }
-    
-    content.appendChild(sessionStorageSection);
 
-    // --- Third-party Scripts ---
-    const scriptsSection = document.createElement('div');
-    scriptsSection.className = 'trackpeek-section';
-    
+    // --- Third-Party Scripts ---
     const scriptsHeading = document.createElement('h3');
     scriptsHeading.innerHTML = '🌍 Third-Party Scripts';
-    scriptsSection.appendChild(scriptsHeading);
+    scriptsHeading.style.margin = '20px 0 10px 0';
+    popup.appendChild(scriptsHeading);
     
     const scriptsList = document.createElement('ul');
+    scriptsList.style.margin = '10px 0';
+    scriptsList.style.paddingLeft = '20px';
+    
+    // Get all script tags
     const scripts = document.getElementsByTagName('script');
     const thirdPartyScripts = [];
+    const currentHostname = window.location.hostname;
     
+    // Find third-party scripts
     for (let i = 0; i < scripts.length; i++) {
-        const script = scripts[i];
-        if (script.src) {
+        if (scripts[i].src) {
             try {
-                const scriptHost = new URL(script.src).hostname;
-                if (scriptHost && scriptHost !== currentHostname) {
-                    thirdPartyScripts.push({
-                        url: script.src,
-                        host: scriptHost
-                    });
+                const scriptHostname = new URL(scripts[i].src).hostname;
+                if (scriptHostname && scriptHostname !== currentHostname) {
+                    thirdPartyScripts.push(scripts[i].src);
                 }
             } catch (e) {
                 // Skip invalid URLs
@@ -205,174 +183,57 @@
     
     if (thirdPartyScripts.length > 0) {
         const scriptSummary = document.createElement('p');
-        scriptSummary.className = 'trackpeek-summary-count';
         scriptSummary.textContent = `Found ${thirdPartyScripts.length} third-party script${thirdPartyScripts.length !== 1 ? 's' : ''}`;
-        scriptsSection.appendChild(scriptSummary);
+        scriptSummary.style.fontWeight = 'bold';
+        popup.appendChild(scriptSummary);
         
         // Group scripts by domain
         const scriptsByDomain = {};
+        
         thirdPartyScripts.forEach(script => {
-            if (!scriptsByDomain[script.host]) {
-                scriptsByDomain[script.host] = [];
+            try {
+                const url = new URL(script);
+                const domain = url.hostname;
+                
+                if (!scriptsByDomain[domain]) {
+                    scriptsByDomain[domain] = [];
+                }
+                
+                scriptsByDomain[domain].push(script);
+            } catch (e) {
+                // Skip invalid URLs
             }
-            scriptsByDomain[script.host].push(script.url);
         });
         
         // Display scripts grouped by domain
         for (const domain in scriptsByDomain) {
             const domainItem = document.createElement('li');
-            domainItem.className = 'trackpeek-domain';
+            domainItem.style.margin = '10px 0 5px 0';
+            domainItem.style.fontWeight = 'bold';
             domainItem.textContent = domain;
             scriptsList.appendChild(domainItem);
             
             const domainScripts = document.createElement('ul');
-            scriptsByDomain[domain].forEach(url => {
+            domainScripts.style.paddingLeft = '20px';
+            
+            scriptsByDomain[domain].forEach(script => {
                 const scriptItem = document.createElement('li');
-                scriptItem.textContent = url;
+                scriptItem.style.margin = '3px 0';
+                scriptItem.style.fontSize = '12px';
+                scriptItem.textContent = script;
                 domainScripts.appendChild(scriptItem);
             });
+            
             scriptsList.appendChild(domainScripts);
         }
     } else {
         const noScripts = document.createElement('p');
-        noScripts.className = 'trackpeek-none-found';
         noScripts.textContent = 'No third-party scripts found';
-        scriptsSection.appendChild(noScripts);
+        popup.appendChild(noScripts);
     }
     
-    scriptsSection.appendChild(scriptsList);
-    content.appendChild(scriptsSection);
-
-    // Add content to popup
-    popup.appendChild(content);
-
-    // Add footer with attribution
-    const footer = document.createElement('div');
-    footer.className = 'trackpeek-footer';
-    footer.innerHTML = '<p>Powered by TrackPeek - A privacy tool</p>';
-    popup.appendChild(footer);
+    popup.appendChild(scriptsList);
 
     // Add the popup to the page
     document.body.appendChild(popup);
-
-    // Add inline styles for when the bookmarklet is used
-    const style = document.createElement('style');
-    style.textContent = `
-        #trackpeek-popup {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            z-index: 2147483647;
-            width: 350px;
-            max-height: 80vh;
-            overflow-y: auto;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #333;
-        }
-        
-        .trackpeek-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid #eee;
-            background-color: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-        }
-        
-        .trackpeek-header h2 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .trackpeek-close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-            padding: 0;
-            margin: 0;
-            line-height: 1;
-        }
-        
-        .trackpeek-close-btn:hover {
-            color: #f44336;
-        }
-        
-        .trackpeek-content {
-            padding: 16px;
-        }
-        
-        .trackpeek-summary {
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .trackpeek-section {
-            margin-bottom: 20px;
-        }
-        
-        .trackpeek-section h3 {
-            margin: 0 0 8px 0;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        
-        .trackpeek-summary-count {
-            font-size: 13px;
-            color: #666;
-            margin: 4px 0 8px 0;
-        }
-        
-        .trackpeek-none-found {
-            font-style: italic;
-            color: #888;
-        }
-        
-        .trackpeek-error {
-            color: #f44336;
-            font-style: italic;
-        }
-        
-        .trackpeek-section ul {
-            margin: 8px 0;
-            padding-left: 20px;
-        }
-        
-        .trackpeek-section li {
-            margin-bottom: 4px;
-            word-break: break-all;
-        }
-        
-        .trackpeek-domain {
-            font-weight: 600;
-            margin-top: 8px;
-        }
-        
-        .trackpeek-footer {
-            padding: 8px 16px;
-            border-top: 1px solid #eee;
-            text-align: center;
-            font-size: 12px;
-            color: #888;
-        }
-        
-        @media (max-width: 480px) {
-            #trackpeek-popup {
-                width: 90%;
-                right: 5%;
-                left: 5%;
-            }
-        }
-    `;
-    document.head.appendChild(style);
 })();
