@@ -11,7 +11,7 @@ A simple, privacy-focused web app that allows users to scan any website they vis
 
 ## Usage
 
-1. Visit the [TrackPeek website](https://your-username.github.io/trackpeek/)
+1. Visit the [TrackPeek website](https://aj-k-code.github.io/trackpeek/)
 2. Drag the "📊 Scan This Site" button to your bookmarks bar
 3. Visit any website you want to analyze
 4. Click the "📊 Scan This Site" bookmarklet in your bookmarks bar
