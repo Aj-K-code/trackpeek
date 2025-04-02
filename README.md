@@ -17,23 +17,6 @@ A simple, privacy-focused web app that allows users to scan any website they vis
 4. Click the "📊 Scan This Site" bookmarklet in your bookmarks bar
 5. A popup will appear showing all tracking technologies in use
 
-## Local Development
-
-To test locally:
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/trackpeek.git
-
-# Navigate to the project directory
-cd trackpeek
-
-# Start a local server (using Python for example)
-python -m http.server 8000
-```
-
-Then visit `http://localhost:8000` in your browser.
-
 ## Files
 
 - `index.html`: The main webpage with instructions and the bookmarklet
